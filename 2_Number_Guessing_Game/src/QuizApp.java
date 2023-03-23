@@ -117,8 +117,9 @@ public class QuizApp {
       public void actionPerformed(ActionEvent arg0) {
         int ans = Integer.parseInt(answer.getText());
         result.setForeground(new Color(132, 165, 157));
-        if (lifeRemaining <= 0) {
+        if (lifeRemaining <= 1) {
           result.setText("The answer was " + randomNumber);
+          life.setText("No Life!");
           return;
         }
         result.setForeground(new Color(132, 165, 157));
