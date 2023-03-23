@@ -1,21 +1,23 @@
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class QuizApp {
 
   private JFrame frame;
   private JTextField answer;
-  int lifeRemaining = 10;
+  private int lifeRemaining = 10;
+  private int randomNumber;
+  private int roundNum = 1;
 
   /**
    * Launch the application.
@@ -44,81 +46,94 @@ public class QuizApp {
    * Initialize the contents of the frame.
    */
   private void initialize() {
-    int randomNumber = (int) (Math.random() * 100) + 1;
+    randomNumber = (int) (Math.random() * 100) + 1;
     System.out.println(randomNumber);
     frame = new JFrame();
-    frame.setBounds(100, 100, 1044, 621);
+    frame.setBounds(100, 100, 1044, 550);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.getContentPane().setLayout(null);
 
     JPanel panel = new JPanel();
-    panel.setBounds(0, 0, 1026, 574);
-    panel.setBackground(new Color(237, 247, 245));
+    panel.setBounds(0, 0, 1026, 550);
+    panel.setBackground(new Color(247, 237, 226));
     frame.getContentPane().add(panel);
     panel.setLayout(null);
 
     JLabel life = new JLabel("Life : " + lifeRemaining);
     life.setFont(new Font("Segoe print", Font.BOLD, 40));
     life.setBounds(34, 23, 213, 46);
-    life.setForeground(new Color(250, 102, 144));
+    life.setForeground(new Color(246, 189, 96));
 
     panel.add(life);
 
-    JLabel lblPickANumber = new JLabel("Guess a number from 1 - 100");
-    lblPickANumber.setHorizontalAlignment(SwingConstants.CENTER);
-    lblPickANumber.setFont(new Font("Segoe print", Font.BOLD, 40));
-    lblPickANumber.setBounds(162, 103, 715, 46);
-    lblPickANumber.setForeground(new Color(174, 127, 108));
-    panel.add(lblPickANumber);
+    JLabel explanation = new JLabel("Guess a number from 1 - 100");
+    explanation.setHorizontalAlignment(SwingConstants.CENTER);
+    explanation.setFont(new Font("Segoe print", Font.BOLD, 40));
+    explanation.setBounds(162, 103, 715, 46);
+    explanation.setForeground(new Color(174, 127, 108));
+    panel.add(explanation);
+
+    JLabel result = new JLabel("Round " + roundNum + "!");
+    result.setForeground(new Color(132, 165, 157));
+    result.setFont(new Font("Segoe print", Font.BOLD, 50));
+    result.setHorizontalAlignment(SwingConstants.CENTER);
+    result.setBounds(162, 180, 721, 57);
+    panel.add(result);
 
     answer = new JTextField();
     answer.setHorizontalAlignment(SwingConstants.CENTER);
     answer.setFont(new Font("Segoe print", Font.BOLD, 40));
     answer.setBounds(162, 272, 721, 63);
+    answer.setBackground(new Color(245, 202, 195));
     panel.add(answer);
     answer.setColumns(10);
 
     JButton guess = new JButton("Gusee Number");
 
     guess.setFont(new Font("Segoe print", Font.BOLD, 30));
-    guess.setBounds(162, 364, 300, 63);
+    guess.setBounds(162, 400, 300, 63);
     guess.setBackground(new Color(183, 215, 216));
     panel.add(guess);
 
     JButton retry = new JButton("Retry");
     retry.setFont(new Font("Segoe print", Font.BOLD, 30));
-    retry.setBounds(580, 364, 300, 63);
+    retry.setBounds(580, 400, 300, 63);
     retry.setBackground(new Color(254, 192, 207));
     panel.add(retry);
 
-    JLabel res = new JLabel("Good Luck!");
-    res.setForeground(new Color(32, 78, 95));
-    res.setFont(new Font("Segoe print", Font.BOLD, 40));
-    res.setHorizontalAlignment(SwingConstants.CENTER);
-    res.setBounds(162, 460, 721, 57);
-    panel.add(res);
+    retry.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent arg0) {
+        lifeRemaining = 10;
+        randomNumber = (int) (Math.random() * 100) + 1;
+        roundNum++;
+        life.setText("Life : " + lifeRemaining);
+        result.setFont(new Font("Segoe print", Font.BOLD, 50));
+        result.setText("Round " + roundNum + "!");
+        answer.setText("");
+      }
+    });
 
     guess.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
         int ans = Integer.parseInt(answer.getText());
-        res.setForeground(new Color(32, 78, 95));
+        result.setForeground(new Color(132, 165, 157));
         if (lifeRemaining <= 0) {
-          res.setText("The answer was " + randomNumber);
+          result.setText("The answer was " + randomNumber);
           return;
         }
-        res.setForeground(new Color(255, 198, 168));
-        res.setFont(new Font("Segoe print", Font.BOLD, 20));
+        result.setForeground(new Color(132, 165, 157));
+        result.setFont(new Font("Segoe print", Font.BOLD, 20));
         if (ans == randomNumber) {
-          res.setText("You got it right in " + (10 - lifeRemaining) + " tries! The answer is " + randomNumber);
+          result.setText("You got it right in " + (10 - lifeRemaining) + " tries! The answer is " + randomNumber);
           return;
         }
         life.setText("Life : " + --lifeRemaining);
-        res.setFont(new Font("Segoe print", Font.BOLD, 40));
-        res.setForeground(new Color(254, 192, 207));
+        result.setFont(new Font("Segoe print", Font.BOLD, 40));
+        result.setForeground(new Color(242, 132, 130));
         if (ans > randomNumber) {
-          res.setText("Too much");
+          result.setText("Too much");
         } else {
-          res.setText("Too little");
+          result.setText("Too little");
         }
       }
     });
