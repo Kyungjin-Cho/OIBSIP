@@ -13,7 +13,7 @@ import javax.swing.SwingConstants;
 
 public class QuizApp {
 
-  private JFrame frame;
+  JFrame frame;
   private JTextField answer;
   private int lifeRemaining = 10;
   private int randomNumber;
