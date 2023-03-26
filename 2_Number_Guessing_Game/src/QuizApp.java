@@ -63,7 +63,6 @@ public class QuizApp {
     life.setFont(new Font("Segoe print", Font.BOLD, 40));
     life.setBounds(34, 23, 213, 46);
     life.setForeground(new Color(246, 189, 96));
-
     panel.add(life);
 
     JLabel explanation = new JLabel("Guess a number from 1 - 100");
