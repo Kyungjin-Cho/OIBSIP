@@ -98,7 +98,7 @@ public class AtmLogin {
           frame.setVisible(false);
           new AtmMenu().setVisible(true);
         } else {
-          JOptionPane.showMessageDialog(null, "Invalid User ID or PIN.");
+          JOptionPane.showMessageDialog(null, "Invalid User ID or PIN.\nPlease enter the ID and PIN again");
         }
       }
     });
