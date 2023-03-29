@@ -19,6 +19,9 @@ public class AtmMenu extends JFrame {
     panel.setBackground(new Color(247, 237, 226));
     panel.setLayout(new GridLayout(5, 1));
 
+    JScrollPane scrollPane = new JScrollPane(transactionHistoryArea);
+    add(scrollPane, BorderLayout.CENTER);
+
     JButton transactionsButton = new JButton("1. Transactions History");
     transactionsButton.setBackground(new Color(255, 211, 182));
     transactionsButton.setFont(new Font("Segoe print", Font.BOLD, 20));
@@ -83,14 +86,16 @@ public class AtmMenu extends JFrame {
     setLocationRelativeTo(null);
   }
 
+  private JTextArea transactionHistoryArea = new JTextArea();
+
   private void showTransactions() {
-    String transactionHistory = "Transaction History:\n\n";
+    transactionHistoryArea.setText("Transaction History:\n\n");
     double totalDeposit = 0.0;
     double totalWithdrawal = 0.0;
     double totalTransfer = 0.0;
 
     for (String transaction : transactions) {
-      transactionHistory += transaction + "\n";
+      transactionHistoryArea.append(transaction + "\n");
       String[] parts = transaction.split(" \\| ");
       if (parts.length == 3) {
         String type = parts[1];
@@ -105,13 +110,14 @@ public class AtmMenu extends JFrame {
       }
     }
 
-    transactionHistory += "\n\nSummary:\n";
-    transactionHistory += String.format("Total Deposit: $%.2f\n", totalDeposit);
-    transactionHistory += String.format("Total Withdrawal: $%.2f\n", totalWithdrawal);
-    transactionHistory += String.format("Total Transfer: $%.2f\n", totalTransfer);
-    transactionHistory += String.format("Current Balance: $%.2f", balance);
+    transactionHistoryArea.append("\n\nSummary:\n");
+    transactionHistoryArea.append(String.format("Total Deposit: $%.2f\n", totalDeposit));
+    transactionHistoryArea.append(String.format("Total Withdrawal: $%.2f\n", totalWithdrawal));
+    transactionHistoryArea.append(String.format("Total Transfer: $%.2f\n", totalTransfer));
+    transactionHistoryArea.append(String.format("Current Balance: $%.2f", balance));
 
-    JOptionPane.showMessageDialog(null, transactionHistory, "Transaction History", JOptionPane.PLAIN_MESSAGE);
+    JOptionPane.showMessageDialog(null, new JScrollPane(transactionHistoryArea), "Transaction History",
+        JOptionPane.PLAIN_MESSAGE);
   }
 
   private void showWithdraw() {
