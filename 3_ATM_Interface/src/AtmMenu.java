@@ -82,8 +82,8 @@ public class AtmMenu extends JFrame {
 
     panel.add(quitButton);
 
-    JLabel oasisAtm = new JLabel("OASIS ATM");
-    oasisAtm.setFont(new Font("Segoe print", Font.BOLD, 40));
+    JLabel oasisAtm = new JLabel("OASIS INFOBYTE ATM");
+    oasisAtm.setFont(new Font("Segoe print", Font.BOLD, 25));
     oasisAtm.setForeground(new Color(174, 127, 108));
     panel.add(oasisAtm);
 
@@ -153,7 +153,7 @@ public class AtmMenu extends JFrame {
       if (amount > balance) {
         JOptionPane.showMessageDialog(null, "Insufficient Balance", "Transfer", JOptionPane.ERROR_MESSAGE);
       } else {
-        String recipient = JOptionPane.showInputDialog(null, "Enter Recipient's Account Number:", "Transfer",
+        String recipient = JOptionPane.showInputDialog(null, "Enter Recipient's User ID:", "Transfer",
             JOptionPane.PLAIN_MESSAGE);
         if (recipient == null || recipient.isEmpty()) {
           JOptionPane.showMessageDialog(null, "Recipient's Account Number is Required", "Transfer",
