@@ -12,15 +12,16 @@ public class AtmMenu extends JFrame {
 
   public AtmMenu() {
     setTitle("ATM Menu");
-    setSize(600, 400);
+    setSize(600, 380);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     JPanel panel = new JPanel();
     panel.setBackground(new Color(247, 237, 226));
-    panel.setLayout(new GridLayout(5, 1));
+    panel.setLayout(new GridLayout(4, 1));
 
+    JTextArea transactionHistoryArea = new JTextArea();
     JScrollPane scrollPane = new JScrollPane(transactionHistoryArea);
-    add(scrollPane, BorderLayout.CENTER);
+    panel.add(scrollPane);
 
     JButton transactionsButton = new JButton("1. Transactions History");
     transactionsButton.setBackground(new Color(255, 211, 182));
@@ -28,7 +29,7 @@ public class AtmMenu extends JFrame {
 
     transactionsButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        showTransactions();
+        showTransactions(transactionHistoryArea);
       }
     });
     panel.add(transactionsButton);
@@ -81,14 +82,17 @@ public class AtmMenu extends JFrame {
 
     panel.add(quitButton);
 
+    JLabel oasisAtm = new JLabel("OASIS ATM");
+    oasisAtm.setFont(new Font("Segoe print", Font.BOLD, 40));
+    oasisAtm.setForeground(new Color(174, 127, 108));
+    panel.add(oasisAtm);
+
     add(panel);
 
     setLocationRelativeTo(null);
   }
 
-  private JTextArea transactionHistoryArea = new JTextArea();
-
-  private void showTransactions() {
+  private void showTransactions(JTextArea transactionHistoryArea) {
     transactionHistoryArea.setText("Transaction History:\n\n");
     double totalDeposit = 0.0;
     double totalWithdrawal = 0.0;
@@ -161,42 +165,37 @@ public class AtmMenu extends JFrame {
   }
 
   private void showTransfer() {
-    // Create a new panel with a grid layout
-    JPanel transferPanel = new JPanel(new GridLayout(4, 1));
-
-    // Create labels and text fields for user input
-    JLabel toLabel = new JLabel("Transfer To:");
-    JTextField toField = new JTextField(20);
-    JLabel amountLabel = new JLabel("Amount:");
-    JTextField amountField = new JTextField(20);
-
-    // Add the labels and text fields to the panel
-    transferPanel.add(toLabel);
-    transferPanel.add(toField);
-    transferPanel.add(amountLabel);
-    transferPanel.add(amountField);
-
-    // Display a confirmation dialog to the user
-    int option = JOptionPane.showConfirmDialog(this, transferPanel, "Transfer", JOptionPane.OK_CANCEL_OPTION);
-
-    // If the user confirms the transfer, update the balance
-    if (option == JOptionPane.OK_OPTION) {
-      try {
-        String toUser = toField.getText();
-        double amount = Double.parseDouble(amountField.getText());
-
-        // Perform the transfer
-        if (amount > balance) {
-          JOptionPane.showMessageDialog(this, "Insufficient funds.");
+    String currentBalance = "Current Balance: $" + balance;
+    String input = JOptionPane.showInputDialog(null, currentBalance + "\nEnter Transfer Amount:", "Transfer",
+        JOptionPane.PLAIN_MESSAGE);
+    try {
+      double amount = Double.parseDouble(input);
+      if (amount > balance) {
+        JOptionPane.showMessageDialog(null, "Insufficient Balance", "Transfer", JOptionPane.ERROR_MESSAGE);
+      } else {
+        String recipient = JOptionPane.showInputDialog(null, "Enter Recipient's Account Number:", "Transfer",
+            JOptionPane.PLAIN_MESSAGE);
+        if (recipient == null || recipient.isEmpty()) {
+          JOptionPane.showMessageDialog(null, "Recipient's Account Number is Required", "Transfer",
+              JOptionPane.ERROR_MESSAGE);
         } else {
           balance -= amount;
-          JOptionPane.showMessageDialog(this,
-              String.format("Transferred %.2f to %s.\nCurrent balance: %.2f", amount, toUser, balance));
+          SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+          String transaction = dateFormat.format(new Date()) + " | Transfer to " + recipient + " | -$"
+              + String.format("%.2f", amount);
+          transactions.add(transaction);
+          JOptionPane.showMessageDialog(null,
+              "Transfer successful. Current balance: " + balance + "\nRecipient: " + recipient, "Transfer",
+              JOptionPane.PLAIN_MESSAGE);
         }
-      } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(this, "Invalid input.");
       }
+    } catch (NumberFormatException e) {
+      JOptionPane.showMessageDialog(null, "Invalid Amount", "Transfer", JOptionPane.ERROR_MESSAGE);
     }
   }
 
+  public static void main(String[] args) {
+    AtmMenu atmMenu = new AtmMenu();
+    atmMenu.setVisible(true);
+  }
 }
