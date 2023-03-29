@@ -93,35 +93,15 @@ public class AtmMenu extends JFrame {
   }
 
   private void showTransactions(JTextArea transactionHistoryArea) {
+    JOptionPane.showMessageDialog(null, "Current balance: " + balance, "Transaction History",
+        JOptionPane.PLAIN_MESSAGE);
+
     transactionHistoryArea.setText("Transaction History:\n\n");
-    double totalDeposit = 0.0;
-    double totalWithdrawal = 0.0;
-    double totalTransfer = 0.0;
 
     for (String transaction : transactions) {
       transactionHistoryArea.append(transaction + "\n");
-      String[] parts = transaction.split(" \\| ");
-      if (parts.length == 3) {
-        String type = parts[1];
-        double amount = Double.parseDouble(parts[2].substring(2));
-        if (type.equals("Deposit")) {
-          totalDeposit += amount;
-        } else if (type.equals("Withdraw")) {
-          totalWithdrawal += amount;
-        } else if (type.equals("Transfer")) {
-          totalTransfer += amount;
-        }
-      }
+
     }
-
-    transactionHistoryArea.append("\n\nSummary:\n");
-    transactionHistoryArea.append(String.format("Total Deposit: $%.2f\n", totalDeposit));
-    transactionHistoryArea.append(String.format("Total Withdrawal: $%.2f\n", totalWithdrawal));
-    transactionHistoryArea.append(String.format("Total Transfer: $%.2f\n", totalTransfer));
-    transactionHistoryArea.append(String.format("Current Balance: $%.2f", balance));
-
-    JOptionPane.showMessageDialog(null, new JScrollPane(transactionHistoryArea), "Transaction History",
-        JOptionPane.PLAIN_MESSAGE);
   }
 
   private void showWithdraw() {
