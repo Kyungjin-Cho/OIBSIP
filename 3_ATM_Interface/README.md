@@ -1,18 +1,13 @@
-## Getting Started
+# ATM Interface Update
+## by Kyungjin Cho
+> This repository will be used for the 'ATM Interface Update'
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## Full Design
+> Version 1 - Development Period : One Week('23.03.23 ~ '23.03.29)
+<p align="center">
 
-## Folder Structure
+</p>
 
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+## Features
+* [x] Java
+* [x] GUI
