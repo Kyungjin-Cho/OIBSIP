@@ -21,8 +21,9 @@
 </p>
 
 > Function
-1. Transactions History
-2. Withdraw
-3. Deposit
-4. Transfer
-5. Quit
+1. Login
+2. Transactions History
+3. Withdraw
+4. Deposit
+5. Transfer
+6. Quit
